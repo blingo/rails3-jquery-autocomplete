@@ -32,10 +32,14 @@ module Rails3JQueryAutocomplete
       def get_autocomplete_select_clause(model, methods, options)
         table_name = model.table_name
         select_clause=["#{table_name}.#{model.primary_key}"]
+        options[:extra_data].each do |method|
+          select_clause.push "#{table_name}.#{method}"
+        end unless options[:extra_data].blank?
         methods.each do |method|
           select_clause.push "#{table_name}.#{method}"
         end
-        select_clause.push(options[:extra_data].blank? ? [] : options[:extra_data])
+        
+        
         return select_clause
       end
 
